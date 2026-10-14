@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Weltoptionen …",
+    "inworldgamerules.world_options.title": "Weltoptionen",
+    "inworldgamerules.world_options.gamerules.button": "Spielregeln bearbeiten …",
+    "inworldgamerules.world_options.gamerules.disabled": "Das Ändern der Spielregeln erfordert Operatorrechte."
+}

@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Әлемді баптау...",
+    "inworldgamerules.world_options.title": "Әлемді баптау",
+    "inworldgamerules.world_options.gamerules.button": "Edit Game Rules...",
+    "inworldgamerules.world_options.gamerules.disabled": "Updating game rules requires operator permissions."
+}

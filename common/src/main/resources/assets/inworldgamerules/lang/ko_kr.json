@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "세계 설정...",
+    "inworldgamerules.world_options.title": "세계 설정",
+    "inworldgamerules.world_options.gamerules.button": "게임 규칙 수정...",
+    "inworldgamerules.world_options.gamerules.disabled": "게임 규칙을 갱신하려면 관리자 권한이 필요합니다."
+}

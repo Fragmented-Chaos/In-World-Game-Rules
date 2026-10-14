@@ -1,0 +1,27 @@
+{
+    "schemaVersion": 1,
+    "id": "inworldgamerules",
+    "version": "${version}",
+    "name": "${mod_name}",
+    "description": "${description}",
+    "authors": [
+        "${mod_author}"
+    ],
+    "license": "${license}",
+    "icon": "assets/inworldgamerules/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "com.fragmentedchaos.inworldgamerules.InWorldGameRulesMod"
+        ]
+    },
+    "mixins": [
+        "${mod_id}.mixins.json",
+        "${mod_id}.fabric.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.14",
+        "minecraft": "1.20.1",
+        "java": ">=17"
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Verdensindstillinger...",
+    "inworldgamerules.world_options.title": "Verdensindstillinger",
+    "inworldgamerules.world_options.gamerules.button": "Rediger spilleregler...",
+    "inworldgamerules.world_options.gamerules.disabled": "Opdatering af spilleregler kræver operatørtilladelser."
+}

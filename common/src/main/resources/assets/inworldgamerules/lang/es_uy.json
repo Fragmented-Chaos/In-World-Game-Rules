@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Opciones del mundo...",
+    "inworldgamerules.world_options.title": "Opciones del mundo",
+    "inworldgamerules.world_options.gamerules.button": "Editar reglas del juego...",
+    "inworldgamerules.world_options.gamerules.disabled": "Cambiar las reglas del juego requiere permisos de operador."
+}

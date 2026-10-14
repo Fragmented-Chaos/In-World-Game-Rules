@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Dünya Seçenekleri...",
+    "inworldgamerules.world_options.title": "Dünya Seçenekleri",
+    "inworldgamerules.world_options.gamerules.button": "Oyun Kurallarını Düzenle...",
+    "inworldgamerules.world_options.gamerules.disabled": "Oyun kurallarını değiştirmek yönetici yetkisi gerektirir."
+}

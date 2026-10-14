@@ -1,0 +1,20 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.fragmentedchaos.inworldgamerules.mixin",
+    "refmap": "${mod_id}.refmap.json",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "MixinServerGamePacketListenerImpl"
+    ],
+    "client": [
+        "MixinOptionsScreen",
+        "GameRulesValueInvoker",
+        "MixinClientPacketListener",
+        "MixinMinecraftTick"
+    ],
+    "server": [],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

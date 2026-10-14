@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Opțiunile lumii...",
+    "inworldgamerules.world_options.title": "Opțiunile lumii",
+    "inworldgamerules.world_options.gamerules.button": "Modifică regulile jocului...",
+    "inworldgamerules.world_options.gamerules.disabled": "Actualizarea regulilor jocului necesită permisiuni de operator."
+}

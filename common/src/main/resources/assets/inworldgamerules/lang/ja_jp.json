@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "ワールド設定…",
+    "inworldgamerules.world_options.title": "ワールド設定",
+    "inworldgamerules.world_options.gamerules.button": "ゲームルールを編集…",
+    "inworldgamerules.world_options.gamerules.disabled": "ゲームルールの更新には管理者権限が必要です。"
+}

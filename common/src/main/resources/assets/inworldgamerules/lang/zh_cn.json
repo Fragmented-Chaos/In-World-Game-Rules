@@ -1,0 +1,7 @@
+{
+    "inworldgamerules.world_options.button": "世界选项…",
+    "inworldgamerules.world_options.title": "世界选项",
+    "inworldgamerules.world_options.gamerules.button": "编辑游戏规则…",
+    "inworldgamerules.world_options.gamerules.disabled": "更新游戏规则需要管理员权限。",
+    "inworldgamerules.world_options.gamerules.failed": "无法从服务器读取游戏规则，未做任何修改。"
+}

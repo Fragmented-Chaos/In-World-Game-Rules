@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Pasaulio parinktys...",
+    "inworldgamerules.world_options.title": "Pasaulio parinktys",
+    "inworldgamerules.world_options.gamerules.button": "Keisti žaidimo taisykles...",
+    "inworldgamerules.world_options.gamerules.disabled": "Žaidimo taisyklių atnaujinimas reikalauja operatoriaus privilegijų."
+}

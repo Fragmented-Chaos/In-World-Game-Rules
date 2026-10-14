@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Opsi Dunia...",
+    "inworldgamerules.world_options.title": "Opsi Dunia",
+    "inworldgamerules.world_options.gamerules.button": "Ubah Aturan Permainan...",
+    "inworldgamerules.world_options.gamerules.disabled": "Memperbarui aturan permainan memerlukan izin operator."
+}

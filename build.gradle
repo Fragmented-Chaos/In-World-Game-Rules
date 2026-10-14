@@ -1,0 +1,33 @@
+plugins {
+    // Provides the assemble/build lifecycle tasks so distZip can be wired into them
+    id 'base'
+    id 'fabric-loom' version '1.9-SNAPSHOT' apply(false)
+    id 'net.neoforged.moddev.legacyforge' version '2.0.147' apply(false)
+}
+
+// 不产出"单文件跨平台 jar"：本机其它项目（Charm-of-Undying-Reborn / Cursor-Kit / SafeSpawn）用的是
+// 把两份平台 jar **合并**（zipTree）成一个 universal jar，成立的前提是 MC 26.x 没有 intermediary 映射、
+// 两边都用官方名。本项目是 1.20.1：Fabric/Quilt 运行时是 intermediary、Forge/NeoForge 运行时是 SRG，
+// 同一份 class 不可能同时是两者，所以这里照它们的另一条约定 —— 平台 jar 各一个，打进一个 zip。
+tasks.register('distZip', Zip) {
+    group = 'distribution'
+    description = 'Packs the Fabric(+Quilt) and Forge(+NeoForge) JARs into one zip for distribution'
+    archiveFileName = "${mod_id}-${minecraft_version}-${version}.zip"
+    destinationDirectory = layout.buildDirectory.dir('dist')
+
+    // 必须显式依赖出包任务：from(...) 用的是文件路径，Gradle 不会自动推断依赖，
+    // 少了这两行全新构建时 zip 会在 jar 生成之前打包（打出空包）。
+    dependsOn ':fabric:remapJar', ':forge:jar', ':forge:reobfJar'
+
+    // 用 remapJar / reobfJar 的产物（已按各自运行时命名空间重映射），不是原始 jar
+    from(project(':fabric').layout.buildDirectory.file("libs/${mod_id}-fabric-${minecraft_version}-${version}.jar")) {
+        into 'fabric'
+    }
+    from(project(':forge').layout.buildDirectory.file("libs/${mod_id}-forge-${minecraft_version}-${version}.jar")) {
+        into 'forge'
+    }
+}
+
+tasks.named('assemble') {
+    dependsOn 'distZip'
+}

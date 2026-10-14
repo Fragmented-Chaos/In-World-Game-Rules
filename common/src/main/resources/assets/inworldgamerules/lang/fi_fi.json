@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Maailman asetukset...",
+    "inworldgamerules.world_options.title": "Maailman asetukset",
+    "inworldgamerules.world_options.gamerules.button": "Muokkaa pelisääntöjä...",
+    "inworldgamerules.world_options.gamerules.disabled": "Pelisääntöjen muokkaaminen vaatii operaattorioikeudet."
+}

@@ -1,0 +1,7 @@
+{
+    "inworldgamerules.world_options.button": "World Options...",
+    "inworldgamerules.world_options.title": "World Options",
+    "inworldgamerules.world_options.gamerules.button": "Edit Game Rules...",
+    "inworldgamerules.world_options.gamerules.disabled": "Updating game rules requires operator permissions.",
+    "inworldgamerules.world_options.gamerules.failed": "Couldn't read the game rules from the server, nothing was changed."
+}

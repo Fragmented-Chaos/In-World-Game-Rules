@@ -1,0 +1,60 @@
+// ModDevGradle / NeoFormRuntime 的产物清单（artifact manifest）本地绕行补丁
+//
+// 背景：NFRT 不走 Gradle 的仓库机制，而是按自己内部的仓库列表直接发 HTTP 下载 Forge 工具链产物。
+// 本网络下 maven.neoforged.net 被 DNS 污染（明文应答被伪造成 Facebook 网段）+ SNI 层重置
+// （见同目录 neoforged-mirror.gradle 的说明），于是 :createMinecraftArtifacts / :downloadAssets
+// 会以 ConnectException 中断，IDEA 导入与 gradle build 都会失败。
+//
+// 做法：这些坐标在官方 CDN 上同名存在。先让 Gradle 把它们解析到本地文件，再用反射构造 moddev
+// 内部的 ArtifactManifestEntry 注入任务的 artifactManifestEntries —— manifest 命中就直接用本地
+// 文件、不再联网下载（这正是该 manifest 的设计意图，见 NeoFormRuntimeTask#writeArtifactManifest）。
+//
+// 注意：
+//  * 放在 ~/.gradle/init.d/ 下由 Gradle 对**所有**构建自动加载；属机器本地网络绕行，不提交进仓库。
+//  * 依赖项目里能解析到这些坐标（本项目在 repositories 里声明了 neoforged.forgecdn.net；
+//    其他项目里声明的 maven.neoforged.net 会被 neoforged-mirror.gradle 改写成该 CDN）。
+//  * 网络正常时这段逻辑纯属冗余（命中的是与下载完全相同的文件）；moddev 内部结构若变动，
+//    这里只打警告、不中断构建。
+def INWR_NFRT_COORDINATES = [
+        'net.minecraftforge:mergetool:1.1.7:api',
+        'net.minecraftforge:mergetool:1.1.7:fatjar',
+        'net.minecraftforge:installertools:1.2.0:fatjar',
+        'net.minecraftforge:ForgeAutoRenamingTool:1.0.2:all',
+        'de.oceanlabs.mcp:mcp_config:1.20.1-20230612.114412@zip',
+        'org.jetbrains:annotations:24.0.1'
+]
+
+allprojects { p ->
+    p.tasks.configureEach { task ->
+        if (!task.getClass().name.startsWith('net.neoforged.nfrtgradle.')) {
+            return
+        }
+        try {
+            def entryClass = Class.forName('net.neoforged.nfrtgradle.ArtifactManifestEntry', true, task.getClass().classLoader)
+            def entryConstructor = entryClass.getDeclaredConstructor(org.gradle.api.artifacts.result.ResolvedArtifactResult)
+            entryConstructor.accessible = true
+
+            // artifactManifestEntries 是 NeoFormRuntimeTask 的私有 SetProperty 字段（无 getter）
+            def entriesField = null
+            for (Class<?> c = task.getClass(); c != null && entriesField == null; c = c.superclass) {
+                entriesField = c.declaredFields.find { it.name == 'artifactManifestEntries' }
+            }
+            if (entriesField == null) {
+                return
+            }
+            entriesField.accessible = true
+            def entries = entriesField.get(task)
+
+            INWR_NFRT_COORDINATES.each { notation ->
+                def detached = p.configurations.detachedConfiguration(p.dependencies.create(notation))
+                detached.transitive = false
+                def resolved = detached.incoming.artifacts.resolvedArtifacts.get()
+                if (!resolved.isEmpty()) {
+                    entries.add(entryConstructor.newInstance(resolved.iterator().next()))
+                }
+            }
+        } catch (Throwable t) {
+            p.logger.warn("[nfrt-local-fix] 向 ${task.path} 注入 artifact manifest 失败（已忽略，继续构建）：${t}")
+        }
+    }
+}

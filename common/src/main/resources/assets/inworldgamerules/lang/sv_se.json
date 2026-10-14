@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Världsalternativ...",
+    "inworldgamerules.world_options.title": "Världsalternativ",
+    "inworldgamerules.world_options.gamerules.button": "Redigera spelregler...",
+    "inworldgamerules.world_options.gamerules.disabled": "Operatörsbehörigheter krävs för att ändra spelregler."
+}

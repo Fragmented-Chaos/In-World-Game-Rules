@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Sea scribble...",
+    "inworldgamerules.world_options.title": "Sea scribble",
+    "inworldgamerules.world_options.gamerules.button": "Change th' rules o' th' sea...",
+    "inworldgamerules.world_options.gamerules.disabled": "Updatin' th' rules o' th' sea requires captain permissions."
+}

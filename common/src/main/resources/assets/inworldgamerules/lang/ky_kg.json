@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "World Options...",
+    "inworldgamerules.world_options.title": "Дүйнө орнотуулары",
+    "inworldgamerules.world_options.gamerules.button": "Edit Game Rules...",
+    "inworldgamerules.world_options.gamerules.disabled": "Updating game rules requires operator permissions."
+}

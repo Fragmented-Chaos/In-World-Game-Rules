@@ -1,0 +1,6 @@
+{
+    "inworldgamerules.world_options.button": "Настройки на света...",
+    "inworldgamerules.world_options.title": "Настройки на света",
+    "inworldgamerules.world_options.gamerules.button": "Редактиране на правилата на играта...",
+    "inworldgamerules.world_options.gamerules.disabled": "За обновяването на правилата на играта са нужни права на оператор."
+}
