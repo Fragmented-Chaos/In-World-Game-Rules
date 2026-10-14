@@ -1,5 +1,12 @@
 # In-World Game Rules — 架构与原理
 
+> **现状提示（后加）**：本文档 §5「远端编辑」写的还是**已被删除**的 `/gamerule` 命令通道。
+> 当前实现只有一条远端路径 —— 26.x 式同步包（`R`/`V`/`S` + 协议号），本地路径不变。
+> 以代码为准：`network/GameRulesChannel.java`、`network/GameRuleSyncServer.java`、
+> `client/RemoteGameRules.java`、`mixin/MixinClientPacketListener.java`、`mixin/MixinServerGamePacketListenerImpl.java`。
+
+
+
 > 一个**纯客户端**模组：在「选项」界面里把原版那一格换成「世界选项」，让玩家在存档内直接改游戏规则、调难度。
 > 目标版本 MC 1.20.1；同时支持 **Fabric / Quilt / Forge / NeoForge**。
 

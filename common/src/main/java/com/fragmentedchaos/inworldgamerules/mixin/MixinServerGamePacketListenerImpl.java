@@ -61,7 +61,7 @@ public abstract class MixinServerGamePacketListenerImpl {
             });
         } else if (GameRulesChannel.matches(data, GameRulesChannel.SET)) {
             String json = GameRulesChannel.body(data);
-            server.execute(() -> GameRuleSyncServer.apply(server, json));
+            server.execute(() -> GameRuleSyncServer.apply(server, serverPlayer, json));
         }
     }
 }

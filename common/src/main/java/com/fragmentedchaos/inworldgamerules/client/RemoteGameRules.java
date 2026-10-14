@@ -62,7 +62,6 @@ public final class RemoteGameRules {
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         buf.writeUtf(GameRulesChannel.request());
         current.send(new ServerboundCustomPayloadPacket(GameRulesChannel.ID, buf));
-        Constants.LOG.info("[inwr] requested rule sync (protocol {})", GameRulesChannel.PROTOCOL);
     }
 
     /** 收到服务端下发的全量规则（26.x {@code ClientboundGameRuleValuesPacket} 的等价物）。 */
@@ -79,7 +78,6 @@ public final class RemoteGameRules {
         collected.clear();
         collected.putAll(values);
         connection = null;
-        Constants.LOG.info("[inwr] received {} game rules over the sync channel", collected.size());
         Consumer<GameRules> callback = onReady;
         onReady = null;
         if (callback != null) {
@@ -141,7 +139,6 @@ public final class RemoteGameRules {
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         buf.writeUtf(GameRulesChannel.set(changed));
         current.send(new ServerboundCustomPayloadPacket(GameRulesChannel.ID, buf));
-        Constants.LOG.info("[inwr] sent {} rule changes to the server", changed.size());
     }
 
     private static GameRules build() {

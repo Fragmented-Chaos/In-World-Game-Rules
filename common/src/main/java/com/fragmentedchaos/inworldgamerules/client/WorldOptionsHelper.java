@@ -1,14 +1,13 @@
 package com.fragmentedchaos.inworldgamerules.client;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.Nullable;
-import com.fragmentedchaos.inworldgamerules.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.worldselection.EditGameRulesScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import com.fragmentedchaos.inworldgamerules.network.GameRuleSyncServer;
 import net.minecraft.world.level.GameRules;
 
 /** 「世界选项」的动作层。只依赖原版 API，因此 Fabric / Forge / NeoForge 共用。 */
@@ -55,21 +54,17 @@ public final class WorldOptionsHelper {
         minecraft.setScreen(new EditGameRulesScreen(liveRules.copy(), optional -> {
             minecraft.setScreen(returnTo);
             optional.ifPresent(edited -> {
-                List<Component> messages = describeChanges(before, edited);
-                if (messages.isEmpty()) {
-                    return;
-                }
-                // 规则是服务端状态，先排到服务端线程；生效后再回客户端线程播报
-                server.execute(() -> {
-                    applyChanges(liveRules, before, edited, server);
-                    minecraft.execute(() -> announce(minecraft, messages));
-                });
+                // 规则是服务端状态，排到服务端线程写回；服务端通知其他人，主机的回显在本地做
+                ServerPlayer self = minecraft.player == null ? null
+                        : server.getPlayerList().getPlayer(minecraft.player.getUUID());
+                server.execute(() -> applyChanges(liveRules, before, edited, server, self));
             });
         }));
     }
 
     /** 只写回真正变化的规则。不用 assignFrom：它会对所有规则触发 onChanged 回调。 */
-    private static void applyChanges(GameRules liveRules, GameRules before, GameRules edited, MinecraftServer server) {
+    private static void applyChanges(GameRules liveRules, GameRules before, GameRules edited,
+                                     MinecraftServer server, @Nullable ServerPlayer self) {
         GameRules.visitGameRuleTypes(new GameRules.GameRuleTypeVisitor() {
             @Override
             public <T extends GameRules.Value<T>> void visit(GameRules.Key<T> key, GameRules.Type<T> type) {
@@ -77,35 +72,13 @@ public final class WorldOptionsHelper {
                 T newValue = edited.getRule(key);
                 if (!oldValue.toString().equals(newValue.toString())) {
                     liveRules.getRule(key).setFrom(newValue, server);
+                    GameRuleSyncServer.broadcast(server, self, key, newValue.toString());
                 }
             }
         });
     }
 
-    private static void announce(Minecraft minecraft, List<Component> messages) {
-        for (Component message : messages) {
-            if (minecraft.player != null) {
-                minecraft.player.displayClientMessage(message, false);
-            }
-            Constants.LOG.info(message.getString());
-        }
-    }
 
-    /** 产出与原版 {@code /gamerule <规则> <值>} 相同文案的提示。 */
-    private static List<Component> describeChanges(GameRules before, GameRules after) {
-        List<Component> messages = new ArrayList<>();
-        GameRules.visitGameRuleTypes(new GameRules.GameRuleTypeVisitor() {
-            @Override
-            public <T extends GameRules.Value<T>> void visit(GameRules.Key<T> key, GameRules.Type<T> type) {
-                T oldValue = before.getRule(key);
-                T newValue = after.getRule(key);
-                if (!oldValue.toString().equals(newValue.toString())) {
-                    messages.add(Component.translatable("commands.gamerule.set", key.getId(), newValue.toString()));
-                }
-            }
-        });
-        return messages;
-    }
 
     /**
      * 本地集成服务器（没有则 null）。
