@@ -9,7 +9,7 @@
     ],
     "license": "${license}",
     "icon": "assets/inworldgamerules/icon.png",
-    "environment": "client",
+    "environment": "*",
     "entrypoints": {
         "client": [
             "com.fragmentedchaos.inworldgamerules.InWorldGameRulesMod"

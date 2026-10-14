@@ -45,11 +45,16 @@ public final class GameRuleSyncServer {
                 if (raw == null) {
                     return;
                 }
-                T incoming = parsed.getRule(key);
-                ((GameRulesValueInvoker) (Object) incoming).inwr$deserialize(raw);
-                if (!live.getRule(key).toString().equals(raw)) {
-                    live.getRule(key).setFrom(incoming, server);
-                    changed[0]++;
+                try {
+                    T incoming = parsed.getRule(key);
+                    ((GameRulesValueInvoker) (Object) incoming).inwr$deserialize(raw);
+                    if (!live.getRule(key).toString().equals(raw)) {
+                        live.getRule(key).setFrom(incoming, server);
+                        changed[0]++;
+                    }
+                } catch (Exception e) {
+                    // 单个规则的值异常不能让整批失败，更不能把玩家踢掉
+                    Constants.LOG.warn("[inwr] could not apply rule {} = {}: {}", key.getId(), raw, e.toString());
                 }
             }
         });
