@@ -11,9 +11,14 @@ credits = "Pause-menu entry + in-game game-rules editing; the World Options scre
 authors = "${mod_author}"
 description = '''${description}'''
 [[dependencies.${mod_id}]]
+# 这里刻意只要求 "47.x 这一线"，不锁到具体小版本：
+# NeoForge 47.x 的加载器同样以 forge 这个 modId 呈现，但版本号可能是 47.1.x，
+# 若下限写成构建用的 47.2.30，NeoForge 会因为强制依赖不满足而直接拒绝加载模组。
+# 而且 mandatory = false：真正的版本约束由下面的 minecraft 依赖负责，
+# 这里的 forge 依赖只作提示，避免不同分发版把版本号写成别的形态时把模组挡在门外。
 modId = "forge"
-mandatory = true
-versionRange = "[${forge_version},)"
+mandatory = false
+versionRange = "[47,)"
 ordering = "NONE"
 side = "CLIENT"
 [[dependencies.${mod_id}]]
