@@ -42,7 +42,9 @@ public class WorldOptionsScreen extends Screen {
         if (minecraft == null || minecraft.level == null) {
             return;
         }
-        boolean host = minecraft.hasSingleplayerServer();
+        // 用 getSingleplayerServer() 判定"是不是房主"：世界一旦"对局域网开放"，
+        // hasSingleplayerServer() 会变成 false，那样房主自己反而改不了难度。
+        boolean host = minecraft.getSingleplayerServer() != null;
         boolean locked = minecraft.level.getLevelData().isDifficultyLocked();
         boolean hardcore = minecraft.level.getLevelData().isHardcore();
 
